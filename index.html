@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企業フィランソロピー実態調査2026｜Connective-PAS</title>
+<!--
+  v1.1（2026-07-02）社長フィードバック反映：
+   ・その場のレーダー／全体平均比較＝廃止（ローンチ時は母数が無く比較が成立しない＝不誠実なため）。
+   ・リターンは【完成レポート1つ】に統一。回答後は御礼＋後日レポート進呈＋結果説明アポの案内。
+   ・会社名・氏名・メールは必須（＝身元判明。後日レポート進呈先／結果説明アポの導線）。
+   ・S3の「者／パートナー」→「団体」に修正。
+   ・採点は内部で保持しGASへ送る（白書集計・結果説明アポ用）。回答者の画面には点数を出さない。
+-->
+<style>
+:root{
+  --teal:#5EB7C7; --teal-deep:#2E8B9E; --teal-tint:#EAF6F8; --teal-line:#CDE8ED;
+  --ink:#1A1A1A; --gray:#606060; --paper:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Meiryo","メイリオ","Hiragino Kaku Gothic ProN",sans-serif;
+  background:var(--paper);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px;}
+.brand{font-size:12px;font-weight:700;letter-spacing:.10em;color:var(--teal-deep);margin-bottom:10px;}
+.tagline{font-size:10.5px;letter-spacing:.22em;color:var(--teal-deep);font-weight:700;text-transform:uppercase;}
+header.hd{background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:12px;padding:30px 30px;margin-bottom:20px;}
+header.hd .k{font-size:11px;letter-spacing:.22em;color:var(--teal-deep);font-weight:700;}
+header.hd h1{font-size:25px;line-height:1.45;margin-top:8px;font-weight:700;color:var(--ink);}
+header.hd p{font-size:13.5px;color:var(--gray);margin-top:12px;}
+.card{background:#fff;border:1px solid var(--teal-line);border-radius:12px;padding:26px 28px;margin-bottom:16px;}
+.btn{display:inline-block;background:var(--teal);color:#fff;border:none;border-radius:8px;
+  padding:13px 30px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;}
+.btn:hover{background:var(--teal-deep);}
+.btn.ghost{background:#fff;color:var(--teal-deep);border:2px solid var(--teal);}
+.btn.sm{padding:9px 18px;font-size:13px;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.meta-strip{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;}
+.meta-strip span{font-size:12px;background:#fff;color:var(--teal-deep);border:1px solid var(--teal-line);border-radius:20px;padding:4px 14px;font-weight:700;}
+.progress{height:8px;background:var(--teal-tint);border-radius:6px;overflow:hidden;margin:4px 0 20px;border:1px solid var(--teal-line);}
+.progress i{display:block;height:100%;background:var(--teal);border-radius:6px;transition:width .25s;}
+.sec-label{font-size:11px;letter-spacing:.16em;color:var(--teal-deep);font-weight:700;}
+.sec-title{font-size:19px;font-weight:700;margin:6px 0 4px;}
+.sec-sub{font-size:12.5px;color:var(--gray);margin-bottom:18px;}
+.q{padding:18px 0;border-top:1px solid var(--teal-line);}
+.q:first-of-type{border-top:none;}
+.q .qh{font-size:15px;font-weight:700;margin-bottom:4px;line-height:1.6;}
+.q .qh .id{color:var(--teal-deep);font-weight:700;margin-right:6px;}
+.q .qhint{font-size:11.5px;color:var(--gray);margin-bottom:10px;}
+.tag{display:inline-block;font-size:10.5px;font-weight:700;border-radius:12px;padding:1px 9px;margin-left:6px;vertical-align:1px;}
+.tag.req{background:var(--teal);color:#fff;}
+.tag.opt{background:var(--teal-tint);color:var(--teal-deep);border:1px solid var(--teal-line);}
+.tag.multi{background:#fff;color:var(--teal-deep);border:1px solid var(--teal-line);}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--teal-line);border-radius:8px;
+  padding:12px 14px;font-size:13.5px;margin-bottom:8px;cursor:pointer;font-family:inherit;line-height:1.55;color:var(--ink);}
+.opt:hover{border-color:var(--teal);background:var(--teal-tint);}
+.opt.sel{border-color:var(--teal);background:var(--teal-tint);font-weight:700;}
+select,input,textarea{width:100%;padding:11px 12px;font-size:14px;border:1.5px solid var(--teal-line);border-radius:8px;font-family:inherit;background:#fff;color:var(--ink);}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--teal);}
+textarea{min-height:76px;resize:vertical;}
+.nav-row{display:flex;justify-content:space-between;margin-top:20px;gap:10px;}
+.err{color:#9A4338;font-size:12.5px;font-weight:700;margin-top:12px;display:none;}
+.note{font-size:11.5px;color:var(--gray);margin-top:14px;}
+label.fld{display:block;font-size:13px;font-weight:700;margin:14px 0 4px;}
+label.fld .req{color:#9A4338;font-size:11px;margin-left:6px;}
+/* thanks */
+.hero{background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:12px;padding:30px 28px;text-align:center;margin-bottom:16px;}
+.hero .lbl{font-size:11px;letter-spacing:.20em;color:var(--teal-deep);font-weight:700;}
+.hero .big{font-size:24px;font-weight:700;color:var(--ink);margin:8px 0 6px;line-height:1.5;}
+.hero p{font-size:13px;color:var(--gray);}
+h2.sec{font-size:15px;color:var(--teal-deep);border-left:4px solid var(--teal);padding-left:10px;margin-bottom:16px;}
+.gift{background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:8px;padding:18px 20px;font-size:13.5px;line-height:1.85;}
+.gift b{color:var(--teal-deep);}
+.next-box{border:2px solid var(--teal);border-radius:12px;padding:22px 24px;margin-bottom:16px;background:#fff;}
+.next-box h3{font-size:15px;color:var(--teal-deep);margin-bottom:12px;}
+.next-item{padding:14px;border:1px solid var(--teal-line);border-radius:8px;margin-bottom:10px;}
+.next-item b{display:block;font-size:14px;color:var(--teal-deep);margin-bottom:4px;}
+.next-item p{font-size:13px;margin-bottom:10px;color:var(--gray);}
+.disclaimer{background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:8px;padding:16px 18px;font-size:12px;color:var(--gray);line-height:1.9;}
+footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-height:1.9;}
+.hidden{display:none;}
+@media (max-width:480px){ header.hd h1{font-size:21px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tagline">PHILANTHROPY ADVISORY SERVICE</div>
+  <div class="brand">Connective-PAS｜企業フィランソロピー・アドバイザリー</div>
+
+  <!-- ===== INTRO ===== -->
+  <div id="scr-intro">
+    <header class="hd">
+      <div class="k">SURVEY 2026｜ご協力のお願い</div>
+      <h1>企業フィランソロピー<br>実態調査 2026</h1>
+      <p>企業の社会貢献が“どこまで経営に統合されているか”を、業界を横断して明らかにする調査です。ご回答は「企業フィランソロピー白書2026」の一次データとなります。</p>
+      <div class="meta-strip"><span>所要 約10分</span><span>全34問・記述は任意</span><span>白書を無料進呈</span></div>
+    </header>
+    <div class="card">
+      <p style="font-size:14px;">「御社の社会貢献は、いま“どの段階”にありますか？」──<br>
+      多くの企業が、活動はあっても<b>“経営との統合”と“成果の見える化”</b>でつまずいています。御社の現状を、業界全体の実態を映す白書づくりにお貸しください。</p>
+      <p class="note">※本調査は現状を伺うものです。正解はありません。御社の現状に最も近いものをお選びください。個社名は許可なく公表しません。</p>
+      <div style="margin-top:18px;"><button class="btn" onclick="go(1)">回答をはじめる</button></div>
+    </div>
+  </div>
+
+  <!-- ===== SECTIONS (dynamically filled) ===== -->
+  <div id="scr-sec" class="hidden">
+    <div class="card">
+      <div class="progress"><i id="pbar" style="width:0%"></i></div>
+      <div class="sec-label" id="secLabel"></div>
+      <div class="sec-title" id="secTitle"></div>
+      <div class="sec-sub" id="secSub"></div>
+      <div id="secBody"></div>
+      <p class="err" id="secErr">未回答の必須項目があります。ご確認ください。</p>
+      <div class="nav-row">
+        <button class="btn ghost sm" id="backBtn" onclick="prev()">← 戻る</button>
+        <button class="btn sm" id="nextBtn" onclick="next()">次へ →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONTACT ===== -->
+  <div id="scr-contact" class="hidden">
+    <div class="card">
+      <div class="progress"><i style="width:92%"></i></div>
+      <div class="sec-label">最後に</div>
+      <div class="sec-title">ご連絡先（レポートの進呈先）</div>
+      <div class="sec-sub">完成した白書レポートの進呈と、ご希望の場合の結果説明のご案内のため、下記をお伺いします。</div>
+      <label class="fld">会社名<span class="req">必須</span></label>
+      <input id="f-company" type="text" placeholder="例：コネクティブ合同会社">
+      <label class="fld">お名前<span class="req">必須</span></label>
+      <input id="f-name" type="text" placeholder="例：鎌田 淳">
+      <label class="fld">メールアドレス<span class="req">必須</span></label>
+      <input id="f-email" type="email" placeholder="例：example@company.co.jp">
+      <label class="fld">役職（任意）</label>
+      <input id="f-title" type="text" placeholder="例：経営企画部長／CSRご担当">
+      <p class="err" id="c-err">必須項目（会社名・お名前・メールアドレス）をご確認ください。</p>
+      <div class="nav-row">
+        <button class="btn ghost sm" onclick="backToSec()">← 戻る</button>
+        <button class="btn sm" onclick="submitAll()">回答を送信する →</button>
+      </div>
+      <p class="note">ご入力情報は、白書レポートの進呈と当社からのご案内に利用します。第三者へ提供しません。</p>
+    </div>
+  </div>
+
+  <!-- ===== THANKS ===== -->
+  <div id="scr-thanks" class="hidden">
+    <div class="hero">
+      <div class="lbl">SURVEY 2026</div>
+      <div class="big">ご回答ありがとうございました</div>
+      <p>御社のご回答は「企業フィランソロピー白書2026」の一次データとして、大切に扱います。</p>
+    </div>
+    <div class="card">
+      <h2 class="sec">御礼として</h2>
+      <div class="gift">
+        <b>完成した「企業フィランソロピー白書2026」を無料で進呈します。</b><br>
+        業界全体のなかで自社がどの位置にあるか——他社と並べて現在地が分かる“鏡”として
+        お使いいただけます。発行後、ご登録のメールアドレス宛にお送りします。
+      </div>
+    </div>
+    <div class="next-box">
+      <h3>ご希望の方へ</h3>
+      <div class="next-item">
+        <b>① 結果説明・無料相談（オンライン）</b>
+        <p>御社のご回答をもとに、業界内での位置づけの読み解きと、同じ段階の企業が次に何を検討しているかを、オンラインでご説明します。ご希望の場合は下記よりお知らせください。</p>
+        <a class="btn sm" id="cta-consult" href="#">結果説明・相談を申し込む</a>
+      </div>
+      <div class="next-item">
+        <b>② 原因の特定と打ち手まで ── 現状診断（有償）</b>
+        <p>専門家のヒアリングと分析で、御社の“現在地”の原因を特定し、専用の打ち手をレポート化します（¥150,000・税別／本契約時は全額充当＝実質無料）。</p>
+        <a class="btn ghost sm" id="cta-paid" href="#">現状診断の詳細を問い合わせる</a>
+      </div>
+    </div>
+    <div class="disclaimer">
+      <b>本調査について</b>　ご回答は白書2026の集計に用います。個社名は許可なく公表しません。
+      御社専用の原因特定と打ち手は、専門家による<b>現状診断</b>で行います。
+    </div>
+  </div>
+
+  <footer>コネクティブ合同会社｜Connective-PAS　企業フィランソロピー・アドバイザリー<br>a-kamata@cnectv.com ／ cnectv.com</footer>
+</div>
+
+<script>
+/* ================= 設定（導入時にここだけ編集） ================= */
+const CONFIG = {
+  GAS_URL: "https://script.google.com/macros/s/AKfycbzjRGLsYtx12qpP49lp2P3NOdwALb6fiw5ZQwI8eGHrtHDlB1KBnzuboP_2sX5KZ8YG/exec",  // GASウェブアプリURL（2026-07-02 社長デプロイ分を接続）
+  TOKEN: "cpas-jittai-2026",         // GAS側と一致させる
+  CONSULT_URL: "",                   // 結果説明・相談の予約URL（空ならメールリンク）
+  MAIL_TO: "a-kamata@cnectv.com",
+};
+
+/* ================= 設問データ（正本＝設問清書 v1.1 と一致） ================= */
+const AX = ["戦略性","可視化","連携","内部浸透","成果測定"];
+
+// フェイス（単一・必須）
+const FACE = [
+ {id:"F1",q:"業種",opts:["製造","建設","卸・小売","金融","情報通信","サービス","運輸","不動産","その他"]},
+ {id:"F2",q:"従業員規模",opts:["〜50名","51〜300名","301〜1000名","1001名〜"]},
+ {id:"F3",q:"年商レンジ",opts:["〜10億円","10〜100億円","100〜1000億円","1000億円〜"]},
+ {id:"F4",q:"上場区分",opts:["非上場","スタンダード","プライム","グロース","その他"]},
+ {id:"F5",q:"ご回答者の立場",opts:["経営者・役員","サステナ・CSR部門","人事","広報・IR","その他"]},
+];
+
+// 第1層 実態
+const JITTAI = [
+ {id:"Q1",q:"現在、社会貢献・フィランソロピー活動を行っていますか",type:"radio",req:true,
+   opts:["体系的に実施している","一部実施している","検討中","未実施"],branchSkipIndex:3},
+ {id:"Q2",q:"重点領域〔テーマ〕",type:"checkbox",req:false,
+   opts:["教育・こども","環境","地域振興","福祉","文化・芸術","災害支援","健康・医療","貧困・格差","その他"]},
+ {id:"Q3",q:"活動の形態〔カタチ〕",type:"checkbox",req:false,
+   opts:["金銭寄付","現物・製品寄贈","本業を通じた提供","社員ボランティア","自社財団・基金","協働プロジェクト","プロボノ（専門スキル提供）"]},
+ {id:"Q4",q:"年間支出規模",type:"radio",req:false,
+   opts:["〜100万円","100〜1000万円","1000万〜1億円","1億円〜","非公開"]},
+ {id:"Q5",q:"取り組み年数",type:"radio",req:true,opts:["〜3年","3〜10年","10年〜"]},
+ {id:"Q6",q:"主な連携先〔連携先の法人格〕",type:"checkbox",req:false,hint:"どんな相手と組むか＝連携の質の入口",
+   opts:["認定NPO法人","NPO法人","公益財団・公益社団","一般社団・一般財団","自治体・地方公共団体","大学・研究機関","国際機関","自社財団・基金","連携なし・自社完結","その他"]},
+ {id:"Q7",q:"社内で主管している部門",type:"radio",req:true,
+   opts:["経営企画・社長室","サステナ・CSR専任部署","総務","人事","広報・IR","事業部門","専任なし・兼任","その他"]},
+ {id:"Q8",q:"推進のかたち",type:"radio",req:true,opts:["専任部署あり","兼任担当あり","役員直轄","明確な担当なし"]},
+ {id:"Q9",q:"現在の最大の課題",type:"checkbox",req:false,
+   opts:["人手不足","予算不足","効果が測定できない","社内に浸透しない","経営戦略と結びつかない","社外に発信できない","連携先が見つからない","特に課題はない","その他"]},
+];
+
+// 第2層 成熟度（15問）：各opt {lv,t}
+const MQ = [
+ {ax:0,id:"S1-1",q:"活動テーマ（何をやるか）の決め方は？",opts:[
+   {lv:1,t:"依頼・付き合いなど、その都度の成り行きで決めている"},{lv:2,t:"担当者・担当部署の判断で決めている"},
+   {lv:3,t:"全社の重点方針として定め、継続的に選んでいる"},{lv:4,t:"経営戦略の一部として決めている"},{lv:0,t:"まだ活動していない／決めていない"}]},
+ {ax:0,id:"S1-2",q:"経営計画・パーパスとの関係は？",opts:[
+   {lv:1,t:"特に関係づけていない"},{lv:2,t:"理念・方針で言及している程度"},
+   {lv:3,t:"中期経営計画等に明確に位置づけている"},{lv:4,t:"経営の中核テーマとして組み込んでいる"},{lv:0,t:"該当しない"}]},
+ {ax:0,id:"S1-3",q:"経営層の関与は？",opts:[
+   {lv:1,t:"ほぼ関与していない"},{lv:2,t:"報告を受けている"},
+   {lv:3,t:"方針・重要事項の意思決定に関与している"},{lv:4,t:"経営トップ自ら牽引している"},{lv:0,t:"該当しない"}]},
+ {ax:1,id:"S2-1",q:"社外への発信は？",opts:[
+   {lv:1,t:"発信していない"},{lv:2,t:"単発でHP等に紹介する程度"},
+   {lv:3,t:"定期的に発信している（報告・SNS等）"},{lv:4,t:"統合報告書・サステナ報告等で体系的に開示している"},{lv:0,t:"該当しない"}]},
+ {ax:1,id:"S2-2",q:"開示の深さは？",opts:[
+   {lv:1,t:"活動の紹介のみ"},{lv:2,t:"実績数値（回数・金額等）まで"},
+   {lv:3,t:"成果（対象に生じた変化）まで"},{lv:4,t:"経営戦略との接続まで説明している"},{lv:0,t:"該当しない"}]},
+ {ax:1,id:"S2-3",q:"発信の届け先の意識は？",opts:[
+   {lv:1,t:"特に意識していない"},{lv:2,t:"一般・不特定に向けて"},
+   {lv:3,t:"顧客・地域など特定の相手を意識"},{lv:4,t:"投資家・採用市場に戦略的に届けている"},{lv:0,t:"該当しない"}]},
+ {ax:2,id:"S3-1",q:"社外との関係は？",opts:[
+   {lv:1,t:"自社で完結している"},{lv:2,t:"単発の寄付・協力にとどまる"},
+   {lv:3,t:"特定の団体と継続的な関係がある"},{lv:4,t:"複数の団体と共創関係を築いている"},{lv:0,t:"該当しない"}]},
+ {ax:2,id:"S3-2",q:"提供しているリソースは？",opts:[
+   {lv:1,t:"金銭のみ"},{lv:2,t:"現物・製品も"},
+   {lv:3,t:"人材・技術も提供している"},{lv:4,t:"本業の中核リソースを提供している"},{lv:0,t:"該当しない"}]},
+ {ax:2,id:"S3-3",q:"連携する団体の広がりは？",opts:[
+   {lv:1,t:"連携していない"},{lv:2,t:"1団体と"},{lv:3,t:"複数の団体と"},{lv:4,t:"エコシステムを形成している"},{lv:0,t:"該当しない"}]},
+ {ax:3,id:"S4-1",q:"社員の参画は？",opts:[
+   {lv:1,t:"担当者のみ"},{lv:2,t:"有志が個別に参加"},
+   {lv:3,t:"参加機会を制度化している（休暇・公募等）"},{lv:4,t:"多くの社員が広く参画している"},{lv:0,t:"該当しない"}]},
+ {ax:3,id:"S4-2",q:"理念の社内浸透は？",opts:[
+   {lv:1,t:"浸透していない"},{lv:2,t:"一部にとどまる"},
+   {lv:3,t:"多くの社員に浸透している"},{lv:4,t:"企業文化として定着している"},{lv:0,t:"該当しない"}]},
+ {ax:3,id:"S4-3",q:"人材面（採用・定着）への効果は？",opts:[
+   {lv:1,t:"特に意識していない"},{lv:2,t:"効果を期待している"},
+   {lv:3,t:"手応え・実感がある"},{lv:4,t:"採用力・定着に明確に寄与している"},{lv:0,t:"該当しない"}]},
+ {ax:4,id:"S5-1",q:"成果の測定は？",opts:[
+   {lv:1,t:"測定していない"},{lv:2,t:"活動量（回数・寄付額）のみ記録"},
+   {lv:3,t:"アウトプット（受益者数・提供量）を把握"},{lv:4,t:"アウトカム（対象に生じた変化・効果）を測定"},{lv:0,t:"該当しない"}]},
+ {ax:4,id:"S5-2",q:"経営指標との接続は？",opts:[
+   {lv:1,t:"接続していない"},{lv:2,t:"検討中"},
+   {lv:3,t:"一部の指標と接続している"},{lv:4,t:"人的資本・信用等の企業価値指標に接続している"},{lv:0,t:"該当しない"}]},
+ {ax:4,id:"S5-3",q:"測定結果の活用は？",opts:[
+   {lv:1,t:"活用していない"},{lv:2,t:"報告に使う程度"},
+   {lv:3,t:"活動の改善に活用している"},{lv:4,t:"開示・経営の意思決定に活用している"},{lv:0,t:"該当しない"}]},
+];
+
+const INTENT_REASONS = ["経営者個人の想い・信念","創業精神・企業理念","人材の採用・定着","企業ブランド・信用","取引先・投資家からの要請","開示・制度対応","地域との関係","社会的責任"];
+const INTENT = [
+ {id:"I1",q:"取り組む理由（あてはまるもの全て）",type:"checkbox",req:false,opts:INTENT_REASONS},
+ {id:"I2",q:"上記のうち最も大きい理由は？",type:"radio",req:true,opts:INTENT_REASONS},
+ {id:"I3",q:"経営戦略と統合できていると思うか",type:"radio",req:true,opts:["できている","一部できている","できていない"],extraText:"そう考える理由（任意）"},
+ {id:"I4",q:"いま最も課題・強化したい点は？",type:"textarea",req:false},
+ {id:"I5",q:"これまでで印象的なエピソード／転機があれば",type:"textarea",req:false},
+];
+
+/* ================= 状態 ================= */
+const ANS = {};                    // 回答を id→値 で保持
+const $=id=>document.getElementById(id);
+const SECS=[
+ {label:"SECTION 1 / 4",title:"御社について",sub:"集計のための属性です（すべて必須）。",items:FACE,face:true},
+ {label:"SECTION 2 / 4",title:"活動の実態",sub:"何を・どれだけ取り組んでいるか。",items:JITTAI},
+ {label:"SECTION 3 / 4",title:"経営への統合度",sub:"御社の状態に最も近いものを1つずつ。集計の中心になる設問です。",items:MQ,maturity:true},
+ {label:"SECTION 4 / 4",title:"取り組む理由（意図）",sub:"なぜ取り組むのか。記述は任意です。",items:INTENT},
+];
+let secIdx=0;
+
+function show(id){["scr-intro","scr-sec","scr-contact","scr-thanks"].forEach(s=>$(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+function go(i){secIdx=i-1;renderSec();show("scr-sec");}
+
+/* ---------- セクション描画 ---------- */
+function renderSec(){
+  const S=SECS[secIdx];
+  $("secLabel").textContent=S.label;
+  $("secTitle").textContent=S.title;
+  $("secSub").textContent=S.sub;
+  $("pbar").style.width=(secIdx/(SECS.length+1)*100)+"%";
+  $("secErr").style.display="none";
+  $("backBtn").style.visibility=secIdx===0?"hidden":"visible";
+  $("nextBtn").textContent=(secIdx===SECS.length-1)?"入力へ →":"次へ →";
+  const body=$("secBody");body.innerHTML="";
+  S.items.forEach(it=>{
+    if(skip(it)) return;
+    body.appendChild(renderQ(it,S));
+  });
+}
+// Q1で「未実施」を選ぶと Q2〜Q9 を非表示
+function skip(it){
+  const isJittaiFollow = JITTAI.some(j=>j.id===it.id) && it.id!=="Q1";
+  const isMaturity = MQ.some(m=>m.id===it.id);
+  const isQ2plus = isJittaiFollow || isMaturity;
+  return (ANS["Q1"]===3) && isQ2plus; // 3=未実施
+}
+function renderQ(it,S){
+  const box=document.createElement("div");box.className="q";
+  const req = it.req || S.face || S.maturity;
+  const isMulti = it.type==="checkbox";
+  let tag = req?'<span class="tag req">必須</span>':'<span class="tag opt">任意</span>';
+  if(isMulti) tag+='<span class="tag multi">複数選択</span>';
+  const idlabel = S.face? "" : `<span class="id">${it.id}</span>`;
+  box.innerHTML=`<div class="qh">${idlabel}${it.q}${tag}</div>`+(it.hint?`<div class="qhint">※${it.hint}</div>`:"");
+
+  if(S.face){ // select
+    const sel=document.createElement("select");
+    sel.innerHTML='<option value="">選択してください</option>'+it.opts.map((o,i)=>`<option value="${i}">${o}</option>`).join("");
+    if(ANS[it.id]!=null) sel.value=ANS[it.id];
+    sel.onchange=()=>{ANS[it.id]=sel.value===""?null:Number(sel.value);};
+    box.appendChild(sel);return box;
+  }
+  if(S.maturity){ // 5択（lv付）single
+    it.opts.forEach((o,i)=>{
+      const b=document.createElement("button");b.type="button";
+      b.className="opt"+(ANS[it.id]===i?" sel":"");
+      b.textContent=o.t;
+      b.onclick=()=>{ANS[it.id]=i;renderSec();};
+      box.appendChild(b);
+    });
+    return box;
+  }
+  // 実態・意図
+  if(it.type==="radio"){
+    it.opts.forEach((o,i)=>{
+      const b=document.createElement("button");b.type="button";
+      b.className="opt"+(ANS[it.id]===i?" sel":"");
+      b.textContent=o;
+      b.onclick=()=>{ANS[it.id]=i; if(it.id==="Q1"){renderSec();return;}
+        [...box.querySelectorAll(".opt")].forEach((el,j)=>el.classList.toggle("sel",j===i)); };
+      box.appendChild(b);
+    });
+    if(it.extraText){ const ta=document.createElement("textarea");ta.placeholder=it.extraText;ta.style.marginTop="8px";
+      ta.value=ANS[it.id+"_txt"]||""; ta.oninput=()=>ANS[it.id+"_txt"]=ta.value; box.appendChild(ta);}
+    return box;
+  }
+  if(it.type==="checkbox"){
+    const set=ANS[it.id]||[];
+    it.opts.forEach((o,i)=>{
+      const b=document.createElement("button");b.type="button";
+      b.className="opt"+(set.includes(i)?" sel":"");
+      b.textContent=o;
+      b.onclick=()=>{const s=ANS[it.id]||[];const k=s.indexOf(i);k>=0?s.splice(k,1):s.push(i);ANS[it.id]=s;b.classList.toggle("sel");};
+      box.appendChild(b);
+    });
+    return box;
+  }
+  if(it.type==="textarea"){
+    const ta=document.createElement("textarea");ta.placeholder="ご自由にご記入ください（任意）";
+    ta.value=ANS[it.id]||""; ta.oninput=()=>ANS[it.id]=ta.value; box.appendChild(ta);return box;
+  }
+  return box;
+}
+
+/* ---------- 検証・遷移 ---------- */
+function validateSec(){
+  const S=SECS[secIdx];
+  for(const it of S.items){
+    if(skip(it)) continue;
+    const req = it.req || S.face || S.maturity;
+    if(!req) continue;
+    const v=ANS[it.id];
+    if(v==null || (Array.isArray(v)&&v.length===0)) return false;
+  }
+  return true;
+}
+function next(){
+  if(!validateSec()){$("secErr").style.display="block";return;}
+  if(secIdx<SECS.length-1){secIdx++;renderSec();window.scrollTo(0,0);}
+  else{show("scr-contact");}
+}
+function prev(){ if(secIdx>0){secIdx--;renderSec();window.scrollTo(0,0);} }
+function backToSec(){ show("scr-sec"); }
+
+/* ---------- 採点（内部用：白書集計・結果説明アポで使用。画面には出さない） ---------- */
+function calcScores(){
+  const sum=[0,0,0,0,0], cnt=[0,0,0,0,0];
+  MQ.forEach(m=>{
+    const i=ANS[m.id]; if(i==null) return;
+    const lv=m.opts[i].lv;
+    sum[m.ax]+=lv; cnt[m.ax]++;
+  });
+  const axis=sum.map((s,i)=>cnt[i]?+(s/cnt[i]).toFixed(1):0);
+  const avg=+(axis.reduce((a,b)=>a+b,0)/5).toFixed(2);
+  let stage;
+  if(avg<1.5) stage="黎明期";
+  else if(avg<2.5) stage="制度化期";
+  else if(avg<3.5) stage="統合期";
+  else stage="価値創造期";
+  let wi=0; axis.forEach((v,i)=>{if(v<axis[wi])wi=i;});
+  return {axis,avg,stage,weakAxis:AX[wi]};
+}
+
+/* ---------- 送信→御礼 ---------- */
+function submitAll(){
+  const c=$("f-company").value.trim(),n=$("f-name").value.trim(),e=$("f-email").value.trim();
+  if(!c||!n||!/.+@.+\..+/.test(e)){$("c-err").style.display="block";return;}
+  $("c-err").style.display="none";
+  const r=calcScores(); // 内部スコア（回答者には見せない／集計・結果説明用にGASへ送る）
+  const payload={token:CONFIG.TOKEN,kind:"jittai_chosa_2026",ts:new Date().toISOString(),
+    company:c,name:n,email:e,title:$("f-title").value.trim(),
+    face:FACE.map(f=>({id:f.id,v:ANS[f.id],label:ANS[f.id]!=null?f.opts[ANS[f.id]]:""})),
+    jittai:JITTAI.map(j=>({id:j.id,v:ANS[j.id]??null})),
+    maturity:MQ.map(m=>({id:m.id,v:ANS[m.id]??null,lv:ANS[m.id]!=null?m.opts[ANS[m.id]].lv:null})),
+    intent:INTENT.map(x=>({id:x.id,v:ANS[x.id]??null,txt:ANS[x.id+"_txt"]||ANS[x.id]||""})),
+    axisNames:AX,axisScores:r.axis,overall:r.avg,stage:r.stage,weakAxis:r.weakAxis};
+  if(CONFIG.GAS_URL){
+    fetch(CONFIG.GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(()=>{});
+  }
+  const subj=encodeURIComponent("【結果説明・相談希望】実態調査に回答しました（"+c+"）");
+  const body=encodeURIComponent("企業フィランソロピー実態調査2026に回答しました。\n結果説明・相談を希望します。ご都合のよい日時の候補をお知らせください。");
+  $("cta-consult").href=CONFIG.CONSULT_URL||("mailto:"+CONFIG.MAIL_TO+"?subject="+subj+"&body="+body);
+  $("cta-paid").href="mailto:"+CONFIG.MAIL_TO+"?subject="+encodeURIComponent("【現状診断について】詳細を知りたい（"+c+"）");
+  show("scr-thanks");
+}
+</script>
+</body>
+</html>
