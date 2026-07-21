@@ -347,7 +347,7 @@ function renderQ(it,S){
       b.className="opt"+(ANS[it.id]===i?" sel":"");
       b.textContent=o;
       b.onclick=()=>{ANS[it.id]=i; if(it.id==="Q1"){renderSec();return;}
-        [...box.querySelectorAll(".opt")].forEach((el,j)=>el.classList.toggle("sel",j===i)); };
+        [...box.querySelectorAll("button.opt")].forEach((el,j)=>el.classList.toggle("sel",j===i)); };
       box.appendChild(b);
     });
     if(it.extraText){ const ta=document.createElement("textarea");ta.placeholder=it.extraText;ta.style.marginTop="8px";
