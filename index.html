@@ -62,6 +62,15 @@ textarea{min-height:76px;resize:vertical;}
 .note{font-size:11.5px;color:var(--gray);margin-top:14px;}
 label.fld{display:block;font-size:13px;font-weight:700;margin:14px 0 4px;}
 label.fld .req{color:#9A4338;font-size:11px;margin-left:6px;}
+/* 白書送付の希望選択 */
+.optbox{margin:4px 0 6px;}
+.optrow{display:flex;align-items:flex-start;gap:10px;width:100%;background:#fff;border:1.5px solid var(--teal-line);
+  border-radius:8px;padding:13px 14px;margin-bottom:8px;cursor:pointer;font-size:13.5px;line-height:1.55;color:var(--ink);}
+.optrow:hover{border-color:var(--teal);background:var(--teal-tint);}
+.optrow.sel{border-color:var(--teal);background:var(--teal-tint);}
+.optrow input[type=radio]{width:auto;margin:3px 0 0;flex-shrink:0;accent-color:var(--teal-deep);}
+.optrow small{color:var(--gray);font-size:12px;font-weight:400;}
+#contact-fields.off{display:none;}
 /* thanks */
 .hero{background:var(--teal-tint);border:1px solid var(--teal-line);border-radius:12px;padding:30px 28px;text-align:center;margin-bottom:16px;}
 .hero .lbl{font-size:11px;letter-spacing:.20em;color:var(--teal-deep);font-weight:700;}
@@ -123,22 +132,41 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
     <div class="card">
       <div class="progress"><i style="width:92%"></i></div>
       <div class="sec-label">最後に</div>
-      <div class="sec-title">ご連絡先（レポートの進呈先）</div>
-      <div class="sec-sub">完成した白書レポートの進呈と、ご希望の場合の結果説明のご案内のため、下記をお伺いします。</div>
-      <label class="fld">会社名<span class="req">必須</span></label>
-      <input id="f-company" type="text" placeholder="例：コネクティブ合同会社">
-      <label class="fld">お名前<span class="req">必須</span></label>
-      <input id="f-name" type="text" placeholder="例：鎌田 淳">
-      <label class="fld">メールアドレス<span class="req">必須</span></label>
-      <input id="f-email" type="email" placeholder="例：example@company.co.jp">
-      <label class="fld">役職（任意）</label>
-      <input id="f-title" type="text" placeholder="例：経営企画部長／CSRご担当">
-      <p class="err" id="c-err">必須項目（会社名・お名前・メールアドレス）をご確認ください。</p>
+      <div class="sec-title">白書の先行送付について</div>
+      <div class="sec-sub">完成した「企業フィランソロピー白書2026」を、一般公開前に先行してお送りします。あわせて、白書の完成後に開催する「発刊記念セミナー」（無料）にもご招待します。</div>
+
+      <div class="optbox">
+        <label class="optrow" onclick="setSend(true)">
+          <input type="radio" name="wantreport" id="opt-yes" checked>
+          <span><b>先行送付・企業フィランソロピー白書公開セミナーの案内を希望する</b><br>
+          <small>送付先として、下記のご連絡先をお伺いします。</small></span>
+        </label>
+        <label class="optrow" onclick="setSend(false)">
+          <input type="radio" name="wantreport" id="opt-no">
+          <span><b>希望しない</b><br>
+          <small>ご回答は統計処理にのみ使用します。ご連絡先の入力は不要です。</small></span>
+        </label>
+      </div>
+
+      <div id="contact-fields">
+        <label class="fld">会社名<span class="req">必須</span></label>
+        <input id="f-company" type="text" placeholder="例：コネクティブ合同会社">
+        <label class="fld">所属部署名<span class="req">必須</span></label>
+        <input id="f-dept" type="text" placeholder="例：経営企画部／サステナビリティ推進室">
+        <label class="fld">お名前<span class="req">必須</span></label>
+        <input id="f-name" type="text" placeholder="例：鎌田 淳">
+        <label class="fld">メールアドレス<span class="req">必須</span></label>
+        <input id="f-email" type="email" placeholder="例：example@company.co.jp">
+        <label class="fld">役職（任意）</label>
+        <input id="f-title" type="text" placeholder="例：部長／課長／ご担当">
+        <p class="err" id="c-err">必須項目（会社名・所属部署名・お名前・メールアドレス）をご確認ください。</p>
+      </div>
+
       <div class="nav-row">
         <button class="btn ghost sm" onclick="backToSec()">← 戻る</button>
         <button class="btn sm" onclick="submitAll()">回答を送信する →</button>
       </div>
-      <p class="note">ご入力情報は、白書レポートの進呈と当社からのご案内に利用します。第三者へ提供しません。</p>
+      <p class="note">ご入力情報は、白書の送付と当社からのご案内に利用します。第三者へ提供しません。</p>
     </div>
   </div>
 
@@ -151,10 +179,10 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
     </div>
     <div class="card">
       <h2 class="sec">御礼として</h2>
-      <div class="gift">
-        <b>完成した「企業フィランソロピー白書2026」を無料で進呈します。</b><br>
-        業界全体のなかで自社がどの位置にあるか——他社と並べて現在地が分かる“鏡”として
-        お使いいただけます。発行後、ご登録のメールアドレス宛にお送りします。
+      <div class="gift" id="gift-msg">
+        <b>完成した「企業フィランソロピー白書2026」を、一般公開前に先行してお送りします。</b><br>
+        業界全体のなかで自社がどの位置にあるか——他社と並べて現在地が分かる“鏡”としてお使いいただけます。
+        あわせて、白書の完成後に開催する「発刊記念セミナー」（無料）にもご招待します。
       </div>
     </div>
     <div class="next-box">
@@ -347,7 +375,7 @@ function renderQ(it,S){
       b.className="opt"+(ANS[it.id]===i?" sel":"");
       b.textContent=o;
       b.onclick=()=>{ANS[it.id]=i; if(it.id==="Q1"){renderSec();return;}
-        [...box.querySelectorAll("button.opt")].forEach((el,j)=>el.classList.toggle("sel",j===i)); };
+        [...box.querySelectorAll(".opt")].forEach((el,j)=>el.classList.toggle("sel",j===i)); };
       box.appendChild(b);
     });
     if(it.extraText){ const ta=document.createElement("textarea");ta.placeholder=it.extraText;ta.style.marginTop="8px";
@@ -387,7 +415,7 @@ function validateSec(){
 function next(){
   if(!validateSec()){$("secErr").style.display="block";return;}
   if(secIdx<SECS.length-1){secIdx++;renderSec();window.scrollTo(0,0);}
-  else{show("scr-contact");}
+  else{setSend(WANT_REPORT);show("scr-contact");}
 }
 function prev(){ if(secIdx>0){secIdx--;renderSec();window.scrollTo(0,0);} }
 function backToSec(){ show("scr-sec"); }
@@ -411,14 +439,29 @@ function calcScores(){
   return {axis,avg,stage,weakAxis:AX[wi]};
 }
 
+/* ---------- 白書の先行送付：希望の切替 ---------- */
+let WANT_REPORT = true;   // 既定＝希望する（記名）
+function setSend(yes){
+  WANT_REPORT = yes;
+  $("opt-yes").checked = yes;
+  $("opt-no").checked  = !yes;
+  document.querySelectorAll(".optrow").forEach((el,i)=>{
+    el.classList.toggle("sel", (i===0)===yes);
+  });
+  $("contact-fields").classList.toggle("off", !yes);
+  if(!yes) $("c-err").style.display="none";
+}
+
 /* ---------- 送信→御礼 ---------- */
 function submitAll(){
-  const c=$("f-company").value.trim(),n=$("f-name").value.trim(),e=$("f-email").value.trim();
-  if(!c||!n||!/.+@.+\..+/.test(e)){$("c-err").style.display="block";return;}
+  const c=$("f-company").value.trim(),d=$("f-dept").value.trim(),n=$("f-name").value.trim(),e=$("f-email").value.trim();
+  // 「希望する」を選んだ場合のみ、連絡先を必須にする
+  if(WANT_REPORT && (!c||!d||!n||!/.+@.+\..+/.test(e))){$("c-err").style.display="block";return;}
   $("c-err").style.display="none";
   const r=calcScores(); // 内部スコア（回答者には見せない／集計・結果説明用にGASへ送る）
   const payload={token:CONFIG.TOKEN,kind:"jittai_chosa_2026",ts:new Date().toISOString(),
-    company:c,name:n,email:e,title:$("f-title").value.trim(),
+    wantReport:WANT_REPORT, wantReportLabel:(WANT_REPORT?"希望する":"希望しない"),
+    company:c,dept:d,name:n,email:e,title:$("f-title").value.trim(),
     face:FACE.map(f=>({id:f.id,v:ANS[f.id],label:ANS[f.id]!=null?f.opts[ANS[f.id]]:""})),
     jittai:JITTAI.map(j=>({id:j.id,v:ANS[j.id]??null})),
     maturity:MQ.map(m=>({id:m.id,v:ANS[m.id]??null,lv:ANS[m.id]!=null?m.opts[ANS[m.id]].lv:null})),
@@ -427,10 +470,22 @@ function submitAll(){
   if(CONFIG.GAS_URL){
     fetch(CONFIG.GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(()=>{});
   }
-  const subj=encodeURIComponent("【結果説明・相談希望】実態調査に回答しました（"+c+"）");
+  const cs = c ? "（"+c+"）" : "";   // 無記名のときは社名括弧を出さない
+  const subj=encodeURIComponent("【結果説明・相談希望】実態調査に回答しました"+cs);
   const body=encodeURIComponent("企業フィランソロピー実態調査2026に回答しました。\n結果説明・相談を希望します。ご都合のよい日時の候補をお知らせください。");
   $("cta-consult").href=CONFIG.CONSULT_URL||("mailto:"+CONFIG.MAIL_TO+"?subject="+subj+"&body="+body);
-  $("cta-paid").href="mailto:"+CONFIG.MAIL_TO+"?subject="+encodeURIComponent("【現状診断について】詳細を知りたい（"+c+"）");
+  $("cta-paid").href="mailto:"+CONFIG.MAIL_TO+"?subject="+encodeURIComponent("【現状診断について】詳細を知りたい"+cs);
+  // 御礼画面の文言を、先行送付の希望に応じて出し分け
+  const g=$("gift-msg");
+  if(g){
+    g.innerHTML = WANT_REPORT
+      ? '<b>完成した「企業フィランソロピー白書2026」を、一般公開前に先行してお送りします。</b><br>'+
+        '業界全体のなかで自社がどの位置にあるか——他社と並べて現在地が分かる“鏡”としてお使いいただけます。'+
+        'あわせて、白書の完成後に開催する「発刊記念セミナー」（無料）にもご招待します。'
+      : '<b>ご回答は、統計処理にのみ使用いたします。</b><br>'+
+        '白書の先行送付をご希望になる場合は、あらためて下記までお知らせください。<br>'+
+        'a-kamata@cnectv.com';
+  }
   show("scr-thanks");
 }
 </script>
