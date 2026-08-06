@@ -239,6 +239,14 @@ const JITTAI = [
  {id:"Q4",q:"年間支出規模",type:"radio",req:false,
    opts:["〜100万円","100〜1000万円","1000万〜1億円","1億円〜","非公開"]},
  {id:"Q5",q:"取り組み年数",type:"radio",req:true,opts:["〜3年","3〜10年","10年〜"]},
+ /* ★2026-08-06 追加：Q1で「未実施」を選んだ方だけに出る設問。
+    これが無かったため、Q1のあと何も答えずに送信でき、全軸0の空回答が発生していた。
+    未実施の企業にとっても答えられる設問にし、白書の第1層（実態編）のデータとして活かす。 */
+ {id:"N1",q:"取り組んでいない理由（あてはまるもの全て）",type:"checkbox",req:true,onlyWhenNoActivity:true,
+   opts:["本業を通じて十分に社会に貢献できていると考えている","予算の余裕がない","担当する人がいない",
+         "何から始めればよいか分からない","経営の優先順位が高くない","過去に取り組んだが続かなかった","その他"]},
+ {id:"N2",q:"今後の見通し",type:"radio",req:true,onlyWhenNoActivity:true,
+   opts:["具体的に検討している","関心はあるが、時期は未定","いまのところ予定はない"]},
  {id:"Q6",q:"主な連携先〔連携先の法人格〕",type:"checkbox",req:false,hint:"どんな相手と組むか＝連携の質の入口",
    opts:["認定NPO法人","NPO法人","公益財団・公益社団","一般社団・一般財団","自治体・地方公共団体","大学・研究機関","国際機関","自社財団・基金","連携なし・自社完結","その他"]},
  {id:"Q7",q:"社内で主管している部門",type:"radio",req:true,
@@ -322,7 +330,10 @@ function go(i){secIdx=i-1;renderSec();show("scr-sec");}
 /* ---------- セクション描画 ---------- */
 function renderSec(){
   const S=SECS[secIdx];
-  $("secLabel").textContent=S.label;
+  /* ★2026-08-06：表示するセクション数を、実際に出る数に合わせる（「2 / 4」で3が飛ぶと不審に見えるため） */
+  const shown=[...SECS.keys()].filter(i=>secHasItems(i));
+  const pos=shown.indexOf(secIdx)+1;
+  $("secLabel").textContent = pos>0 ? `SECTION ${pos} / ${shown.length}` : S.label;
   $("secTitle").textContent=S.title;
   $("secSub").textContent=S.sub;
   $("pbar").style.width=(secIdx/(SECS.length+1)*100)+"%";
@@ -337,10 +348,13 @@ function renderSec(){
 }
 // Q1で「未実施」を選ぶと Q2〜Q9 を非表示
 function skip(it){
-  const isJittaiFollow = JITTAI.some(j=>j.id===it.id) && it.id!=="Q1";
+  const noActivity = (ANS["Q1"]===3);              // 3=未実施
+  /* ★未実施のときだけ出す設問（N1・N2）は、それ以外では隠す */
+  if(it.onlyWhenNoActivity) return !noActivity;
+  const isJittaiFollow = JITTAI.some(j=>j.id===it.id) && it.id!=="Q1" && !it.onlyWhenNoActivity;
   const isMaturity = MQ.some(m=>m.id===it.id);
   const isQ2plus = isJittaiFollow || isMaturity;
-  return (ANS["Q1"]===3) && isQ2plus; // 3=未実施
+  return noActivity && isQ2plus;
 }
 function renderQ(it,S){
   const box=document.createElement("div");box.className="q";
@@ -412,15 +426,31 @@ function validateSec(){
   }
   return true;
 }
+/* ★2026-08-06 追加：中身が1問も無いセクションは表示しない。
+   これまではQ1で「未実施」を選ぶと SECTION 3（経営への統合度）が
+   まるごと空の画面として現れ、そのまま素通りできていた。 */
+function secHasItems(i){
+  return SECS[i].items.some(it=>!skip(it));
+}
 function next(){
   if(!validateSec()){$("secErr").style.display="block";return;}
-  if(secIdx<SECS.length-1){secIdx++;renderSec();window.scrollTo(0,0);}
+  let i=secIdx+1;
+  while(i<SECS.length && !secHasItems(i)) i++;
+  if(i<SECS.length){secIdx=i;renderSec();window.scrollTo(0,0);}
   else{setSend(WANT_REPORT);show("scr-contact");}
 }
-function prev(){ if(secIdx>0){secIdx--;renderSec();window.scrollTo(0,0);} }
+function prev(){
+  let i=secIdx-1;
+  while(i>0 && !secHasItems(i)) i--;
+  if(i>=0){secIdx=i;renderSec();window.scrollTo(0,0);}
+}
 function backToSec(){ show("scr-sec"); }
 
 /* ---------- 採点（内部用：白書集計・結果説明アポで使用。画面には出さない） ---------- */
+/* ★2026-08-06 修正：これまでは未回答の軸を「0点」として計算していたため、
+   Q1で「未実施」を選んで成熟度設問が1問も出なかった回答が
+   「全軸0・総合平均0・黎明期」という"実在しない評価"として記録されていた。
+   未回答は0ではなく「該当なし（null）」として返す。 */
 function calcScores(){
   const sum=[0,0,0,0,0], cnt=[0,0,0,0,0];
   MQ.forEach(m=>{
@@ -428,15 +458,22 @@ function calcScores(){
     const lv=m.opts[i].lv;
     sum[m.ax]+=lv; cnt[m.ax]++;
   });
-  const axis=sum.map((s,i)=>cnt[i]?+(s/cnt[i]).toFixed(1):0);
-  const avg=+(axis.reduce((a,b)=>a+b,0)/5).toFixed(2);
+  const answered = cnt.reduce((a,b)=>a+b,0);
+  if(answered===0){
+    // 成熟度設問に1問も答えていない（＝Q1が未実施）
+    return {axis:[null,null,null,null,null], avg:null,
+            stage:"該当なし（活動が未実施のため成熟度は測定せず）", weakAxis:"—", scored:false};
+  }
+  const axis=sum.map((s,i)=>cnt[i]?+(s/cnt[i]).toFixed(1):null);
+  const valid=axis.filter(v=>v!=null);
+  const avg=+(valid.reduce((a,b)=>a+b,0)/valid.length).toFixed(2);
   let stage;
   if(avg<1.5) stage="黎明期";
   else if(avg<2.5) stage="制度化期";
   else if(avg<3.5) stage="統合期";
   else stage="価値創造期";
-  let wi=0; axis.forEach((v,i)=>{if(v<axis[wi])wi=i;});
-  return {axis,avg,stage,weakAxis:AX[wi]};
+  let wi=-1; axis.forEach((v,i)=>{ if(v==null) return; if(wi<0||v<axis[wi]) wi=i; });
+  return {axis,avg,stage,weakAxis:wi>=0?AX[wi]:"—", scored:true};
 }
 
 /* ---------- 白書の先行送付：希望の切替 ---------- */
@@ -453,7 +490,28 @@ function setSend(yes){
 }
 
 /* ---------- 送信→御礼 ---------- */
+/* ★2026-08-06 追加：画面遷移をすり抜けた場合の保険。
+   送信ボタンを押した時点で、全セクションの必須項目をもう一度確かめる。 */
+function validateAll(){
+  for(let i=0;i<SECS.length;i++){
+    const S=SECS[i];
+    for(const it of S.items){
+      if(skip(it)) continue;
+      const req = it.req || S.face || S.maturity;
+      if(!req) continue;
+      const v=ANS[it.id];
+      if(v==null || (Array.isArray(v)&&v.length===0)) return i;
+    }
+  }
+  return -1;
+}
 function submitAll(){
+  const bad=validateAll();
+  if(bad>=0){
+    alert("未回答の必須項目があります。前のセクションに戻ってご回答ください。");
+    secIdx=bad; renderSec(); show("scr-sec"); $("secErr").style.display="block";
+    return;
+  }
   const c=$("f-company").value.trim(),d=$("f-dept").value.trim(),n=$("f-name").value.trim(),e=$("f-email").value.trim();
   // 「希望する」を選んだ場合のみ、連絡先を必須にする
   if(WANT_REPORT && (!c||!d||!n||!/.+@.+\..+/.test(e))){$("c-err").style.display="block";return;}
@@ -465,8 +523,13 @@ function submitAll(){
     face:FACE.map(f=>({id:f.id,v:ANS[f.id],label:ANS[f.id]!=null?f.opts[ANS[f.id]]:""})),
     jittai:JITTAI.map(j=>({id:j.id,v:ANS[j.id]??null})),
     maturity:MQ.map(m=>({id:m.id,v:ANS[m.id]??null,lv:ANS[m.id]!=null?m.opts[ANS[m.id]].lv:null})),
-    intent:INTENT.map(x=>({id:x.id,v:ANS[x.id]??null,txt:ANS[x.id+"_txt"]||ANS[x.id]||""})),
-    axisNames:AX,axisScores:r.axis,overall:r.avg,stage:r.stage,weakAxis:r.weakAxis};
+    /* ★2026-08-06 修正：txt のフォールバックが ANS[x.id] まで拾っていたため、
+       複数選択（I1）では「配列そのもの」が txt に入り、スプレッドシートに
+       [Ljava.lang.Object;@... という文字列が書き込まれていた（PayPay銀行の回答で発生）。
+       txt は自由記述欄だけを入れる。選択値は v 側で渡す。 */
+    intent:INTENT.map(x=>({id:x.id,v:ANS[x.id]??null,txt:ANS[x.id+"_txt"]||""})),
+    axisNames:AX,axisScores:r.axis,overall:r.avg,stage:r.stage,weakAxis:r.weakAxis,
+    scored:r.scored, noActivity:(ANS["Q1"]===3)};   /* ★集計対象かどうかをGAS側で判別できるようにする */
   if(CONFIG.GAS_URL){
     fetch(CONFIG.GAS_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)}).catch(()=>{});
   }
