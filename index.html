@@ -148,6 +148,23 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
         </label>
       </div>
 
+      <div style="margin-top:18px">
+        <label class="fld">本調査をお知りになったきっかけ（任意）</label>
+        <select id="f-channel">
+          <option value="">（選択しない）</option>
+          <option value="当社からのメール">コネクティブ合同会社からのメール</option>
+          <option value="当社からの問い合わせフォーム経由の連絡">貴社ホームページのお問い合わせフォームに届いた連絡</option>
+          <option value="日本ファンドレイジング協会">日本ファンドレイジング協会のご案内・メールマガジン</option>
+          <option value="日本評価学会">日本評価学会のご案内</option>
+          <option value="地方創生SDGs官民連携プラットフォーム">地方創生SDGs官民連携プラットフォーム（内閣府）のお知らせ</option>
+          <option value="SNS">LinkedIn・Facebook などのSNS</option>
+          <option value="ウェブ検索・当社ホームページ">ウェブ検索・コネクティブ合同会社のホームページ</option>
+          <option value="紹介">知人・社内の方からのご紹介</option>
+          <option value="その他">その他</option>
+        </select>
+        <p class="note" style="margin-top:6px">告知方法を見直すために伺うものです。ご回答の内容には影響しません。</p>
+      </div>
+
       <div id="contact-fields">
         <label class="fld">会社名<span class="req">必須</span></label>
         <input id="f-company" type="text" placeholder="例：コネクティブ合同会社">
@@ -187,7 +204,7 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
         <b>③ 白書の完成後に開催する「発刊記念セミナー」（無料）にもご招待します。</b>
       </div>
       <p style="text-align:center;margin:18px 0 4px;">
-        <a class="btn" id="cta-guide" href="https://cpas-guide.netlify.app/guide.pdf" target="_blank" rel="noopener" download>「企業フィランソロピーの教科書」をダウンロード</a>
+        <a class="btn" id="cta-guide" href="https://guide.cnectv.com/guide.pdf" target="_blank" rel="noopener" download>「企業フィランソロピーの教科書」をダウンロード</a>
       </p>
       <p class="note" style="text-align:center;">PDF・全8章／27ページ</p>
     </div>
@@ -526,6 +543,7 @@ function submitAll(){
   const payload={token:CONFIG.TOKEN,kind:"jittai_chosa_2026",ts:new Date().toISOString(),
     wantReport:WANT_REPORT, wantReportLabel:(WANT_REPORT?"希望する":"希望しない"),
     company:c,dept:d,name:n,email:e,title:$("f-title").value.trim(),
+    channel:($("f-channel")?$("f-channel").value:""),
     face:FACE.map(f=>({id:f.id,v:ANS[f.id],label:ANS[f.id]!=null?f.opts[ANS[f.id]]:""})),
     jittai:JITTAI.map(j=>({id:j.id,v:ANS[j.id]??null})),
     maturity:MQ.map(m=>({id:m.id,v:ANS[m.id]??null,lv:ANS[m.id]!=null?m.opts[ANS[m.id]].lv:null})),
