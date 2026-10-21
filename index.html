@@ -104,9 +104,9 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
       <div class="meta-strip"><span>所要 約10分</span><span>全34問・記述は任意</span><span>白書を無料進呈</span></div>
     </header>
     <div class="card">
-      <p style="font-size:14px;">「御社の社会貢献は、いま“どの段階”にありますか？」──<br>
-      多くの企業が、活動はあっても<b>“経営との統合”と“成果の見える化”</b>でつまずいています。御社の現状を、業界全体の実態を映す白書づくりにお貸しください。</p>
-      <p class="note">※本調査は現状を伺うものです。正解はありません。御社の現状に最も近いものをお選びください。個社名は許可なく公表しません。</p>
+      <p style="font-size:14px;">「貴社の社会貢献は、いま“どの段階”にありますか？」──<br>
+      多くの企業が、活動はあっても<b>“経営との統合”と“成果の見える化”</b>でつまずいています。貴社の現状を、業界全体の実態を映す白書づくりにお貸しください。</p>
+      <p class="note">※本調査は現状を伺うものです。正解はありません。貴社の現状に最も近いものをお選びください。個社名は許可なく公表しません。</p>
       <div style="margin-top:18px;"><button class="btn" onclick="go(1)">回答をはじめる</button></div>
     </div>
   </div>
@@ -192,7 +192,7 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
     <div class="hero">
       <div class="lbl">SURVEY 2026</div>
       <div class="big">ご回答ありがとうございました</div>
-      <p>御社のご回答は「企業フィランソロピー白書2026」の一次データとして、大切に扱います。</p>
+      <p>貴社のご回答は「企業フィランソロピー白書2026」の一次データとして、大切に扱います。</p>
     </div>
     <div class="card">
       <h2 class="sec">御礼として</h2>
@@ -212,18 +212,18 @@ footer{margin-top:28px;font-size:11px;color:var(--gray);text-align:center;line-h
       <h3>ご希望の方へ</h3>
       <div class="next-item">
         <b>① 結果説明・無料相談（オンライン）</b>
-        <p>御社のご回答をもとに、業界内での位置づけの読み解きと、同じ段階の企業が次に何を検討しているかを、オンラインでご説明します。ご希望の場合は下記よりお知らせください。</p>
+        <p>貴社のご回答をもとに、業界内での位置づけの読み解きと、同じ段階の企業が次に何を検討しているかを、オンラインでご説明します。ご希望の場合は下記よりお知らせください。</p>
         <a class="btn sm" id="cta-consult" href="#">結果説明・相談を申し込む</a>
       </div>
       <div class="next-item">
         <b>② 原因の特定と打ち手まで ── 現状診断（有償）</b>
-        <p>専門家のヒアリングと分析で、御社の“現在地”の原因を特定し、専用の打ち手をレポート化します（¥150,000・税別／本契約時は全額充当＝実質無料）。</p>
+        <p>専門家のヒアリングと分析で、貴社の“現在地”の原因を特定し、専用の打ち手をレポート化します（¥150,000・税別）。</p>
         <a class="btn ghost sm" id="cta-paid" href="#">現状診断の詳細を問い合わせる</a>
       </div>
     </div>
     <div class="disclaimer">
       <b>本調査について</b>　ご回答は白書2026の集計に用います。個社名は許可なく公表しません。
-      御社専用の原因特定と打ち手は、専門家による<b>現状診断</b>で行います。
+      貴社専用の原因特定と打ち手は、専門家による<b>現状診断</b>で行います。
     </div>
   </div>
 
@@ -340,9 +340,9 @@ const INTENT = [
 const ANS = {};                    // 回答を id→値 で保持
 const $=id=>document.getElementById(id);
 const SECS=[
- {label:"SECTION 1 / 4",title:"御社について",sub:"集計のための属性です（すべて必須）。",items:FACE,face:true},
+ {label:"SECTION 1 / 4",title:"貴社について",sub:"集計のための属性です（すべて必須）。",items:FACE,face:true},
  {label:"SECTION 2 / 4",title:"活動の実態",sub:"何を・どれだけ取り組んでいるか。",items:JITTAI},
- {label:"SECTION 3 / 4",title:"経営への統合度",sub:"御社の状態に最も近いものを1つずつ。集計の中心になる設問です。",items:MQ,maturity:true},
+ {label:"SECTION 3 / 4",title:"経営への統合度",sub:"貴社の状態に最も近いものを1つずつ。集計の中心になる設問です。",items:MQ,maturity:true},
  {label:"SECTION 4 / 4",title:"取り組む理由（意図）",sub:"なぜ取り組むのか。記述は任意です。",items:INTENT},
 ];
 let secIdx=0;
